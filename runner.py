@@ -1,14 +1,8 @@
-import coffeeshop.components_dialogflow
-import coffeeshop.components_coco
-
-components_index = {
-    "dialogflow_comp": coffeeshop.components_dialogflow.dialogflow_comp,
-    "namer_comp": coffeeshop.components_coco.namer_comp,
-}
+import coffeeshop
 
 
 def get_response(state, inp):
-    responses, new_comp, need_to_pop = components_index[state["control_stack"][-1]](
+    responses, new_comp, need_to_pop = getattr(coffeeshop, state["control_stack"][-1])(
         state, inp
     )
     if need_to_pop:
