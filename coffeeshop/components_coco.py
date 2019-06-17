@@ -9,3 +9,11 @@ def namer_comp(state, inp):
         first_name = response["updated_context"].get("user.firstName")
         return [get_drink_action(first_name)], None, True
     return [response["response"]], None, False
+
+
+def get_address_comp(state, inp):
+    response = call_coco("get_address_vp3", state["session_id"], user_input=inp)
+    if response["component_done"]:
+        state["address"] = response["updated_context"]["userInfoaddress"]
+        return [], None, True
+    return [response["response"]], None, False
