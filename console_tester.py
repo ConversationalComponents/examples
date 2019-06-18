@@ -4,7 +4,7 @@ import uuid
 import runner
 
 session_id = str(uuid.uuid4())
-state = {"control_stack": ["dialogflow_comp"], "session_id": session_id}
+state = {"control_stack": ["entry_comp"], "session_id": session_id}
 
 while True:
     inp = input("U: ")
