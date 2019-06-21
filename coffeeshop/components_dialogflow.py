@@ -36,4 +36,6 @@ def dialogflow_comp(state, inp):
         and interpretation.parameters.fields["delivery-pickup"].string_value == "delivery" \
         and not "address" in state:
         return [], "get_address_comp", False
+    if(interpretation.intent.display_name == "order.last.same_card.good" and not "survey" in state):
+        return [], "survey_comp", False
     return [interpretation.fulfillment_text], None, False

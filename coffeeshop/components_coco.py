@@ -17,3 +17,12 @@ def get_address_comp(state, inp):
         state["address"] = response["updated_context"]["userInfoaddress"]
         return [], None, True
     return [response["response"]], None, False
+
+
+def survey_comp(state, inp):
+    response = call_coco("pick_one_survey_vp3", state["session_id"], user_input=inp)
+    if response["component_done"]:
+        state["survey"] = response["updated_context"]["survey_results"]
+        return [response["response"]], None, True
+    return [response["response"]], None, False
+
