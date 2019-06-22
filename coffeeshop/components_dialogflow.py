@@ -29,7 +29,7 @@ def dialogflow_comp(state, inp):
     interpretation = detect_intent(state["session_id"], inp).query_result
     if (
         interpretation.intent.display_name == "Default Welcome Intent"
-        and not "name" in state
+        and not "user" in state
     ):
         return [], "namer_comp", False
     if interpretation.intent.display_name == "order.drink" \
