@@ -31,7 +31,7 @@ def get_address_comp(state, inp):
 
 def survey_comp(state, inp):
     response = call_coco(
-            "pick_one_survey_vp3", 
+            "CoCoSurvey_619c51d02b6eb5", 
             state["session_id"], 
             user_input=inp, 
             context={
