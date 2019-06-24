@@ -1,70 +1,91 @@
-![alt text](imperson_logo_black.png)
+![CoCo Logo](images/imperson_logo_black.png)
 
 # Conversational components with CoCo examples
 
 an example of how to use coco in your chatbot, with integration to google dialogflow
 
-1. [More about coco](#MoreAboutCoco)
-2. [More about the example](#MoreAboutExample)
-3. [Getting Started](#GettingStarted)
-4. [working steps](#GettingStarted)
+1. [Background](#Background)
+2. [Getting Started](#GettingStarted)
+3. [High Level Architercure](#MoreAboutExample)
     1. [add new comp](#subparagraph1)
-    2. [integrate the comp](#IntegrateComp)
+    2. [component and action functions](#component_actions)
+    2. [contol transfer](#control_transfer)
     3. [customize the action](#CustomizeAction)
     4. [share content with comp](#ShareContent)
     5. [customize the comp](#CustomizeComp)
 
-## More About Coco <a name="MoreAboutCoco"></a>
-CoCo - Conversational Components -   
-[coco website](https://www.coco.imperson.com/)  
-[coco app](https://app.coco.imperson.com/)  
+## Background <a name="Background"></a>
+### Conversational Components
+Conversation components are a concept developed to address the problem of reusability in chatbots.  
+  
+Each Component maintain its own state, perform its own understanding, includes actions(+responses) and exposes and small interface to pass inputs, responses and context back and forth.
 
-## More About The Example <a name="MorAboutExample"></a>
-In this example integrate to a dialogflow chatbot Namer, Get_Address and Survey components 
+### CoCo
+CoCo(ConversationComponents) is the first vendor to offer prebuilt components
+
+[CoCo website](https://www.coco.imperson.com/)  
+[CoCo developers console](https://app.coco.imperson.com/)  
 
 ## Getting Started<a name="GettingStarted"></a>
+python3 is required to run the examples and we recommed using a virtualenv
+
+```bash 
 1. git clone https://github.com/chenb67/coco_examples
+2. pip install -r requirements.txt
+3. generate a dialogflow bot and import the included intents and entities
+4. create and download service account json and place it under root - dialogflow_serviceaccount.json
+5. python console_tester.py
+```
 
-
-## Working Steps <a name="GettingStarted"></a>
+## More About The Examples <a name="MoreAboutExample"></a>
+In this repo we demostrate integration with coco, nlu platforms and other services to create a chatbot
+Below is some general info about the architecture
 
 ### Adding new comp <a name="subparagraph1"></a>
 call coco with the user input and get the component's response
 
 ```python
-def call_coco(component_id, session_id, **kwargs):
+def coco_exchange(component_id, session_id, **kwargs):
     return requests.post(
-        "https://coco-235210.appspot.com/api/exchange/" f"{component_id}/{session_id}",
+        "https://app.coco.imperson.com/api/exchange/" 
+        f"{component_id}/{session_id}",
         json=kwargs,
     ).json()
 
-response = call_coco("namer_vp3", state["session_id"], user_input=inp)
+response = coco_exchange("namer_vp3", state["session_id"], user_input=user_input)
 ```
 
-choose when to go back to yout chatbot from the component
+When the coco returns component_done=true it means the control goes back to the calling bot/component. this a good time to collect variables and update the state
 
 ```python
 if response["component_done"]:
-        state["name"] = response["updated_context"]
-        first_name = response["updated_context"].get("user.firstName")
+        state["user"] = response["updated_context"].get("user")
+        first_name = response["updated_context"].get("user", {}).get("firstName", "")
         return [get_drink_action(first_name)], None, True
 return [response["response"]], None, False
 ```
-here when the component gets "component_done" it means it has the name of the user and this is when getting back to chatbot
 
-the return value contains 3 parameters:
-1. a list of responses - the comp response/ the bot response/ custume response
-2. if want to call new comp return it's name else return None
-3. finish this comp - bool
-
-if need to store any data in the conv state 
+### Component and actions functions <a name="component_actions"></a>
 
 ```python
-from coffeeshop.components_coco import namer_comp,
-```
-in __init__.py import the new comp function
+def component_name(state, user_input):
+    return [], str, bool
 
-### Integrate The Comp <a name="IntegrateComp"></a>
+def action_name(**kwargs):
+    return str
+```
+component function takes two params - the state and the user_input
+it returns a tuple:
+1. a list of responses
+2. a new component to call and add to the stack or none
+3. if done and should stop call this comp
+
+available components registery is under \_\_init__.py:
+```python
+from coffeeshop.components_coco import namer_comp
+```
+
+### Condition to control transfer to a component <a name="control_transfer"></a>
 
 ```python
 if (
@@ -73,9 +94,8 @@ if (
     ):
 return [], "namer_comp", False
 ```
-on the chatbot flow choose when to call comp
 
-in the example above return no response call the "namer_comp" and don't finish yet with the comp
+Return statement with no responses means recursively call the stack again with the new comp on top now
 
 
 > U: hi  <--- "Default Welcome Intent" calling CoCo  
@@ -85,7 +105,9 @@ in the example above return no response call the "namer_comp" and don't finish y
 > U: yes  
 
 ### Customize The Action (optional) <a name="CustomizeAction"></a>
-In case we have first name use it when performing get drink action
+
+Best to have the actions under functions that use the state to determine how the text would look like
+
 ```python
 def get_drink_action(first_name=""):
     if first_name:
@@ -104,7 +126,19 @@ return "Hi, What can I get you to drink?"
 
 
 ### Share Content With Comp <a name="ShareContent"></a>
-in the example below get_address using the name data 
+Many of the components make use of available information like name
+Here how to pass this data to coco:
+
+```python
+response = call_coco(
+            "CoCoSurvey_619c51d02b6eb5", 
+            state["session_id"], 
+            user_input=user_input, 
+            context={
+                "user": state["user"] # {"firstName": "SomeName"}
+                }
+            )
+```
 
 > U: hi  
 > B: Can you please tell me your name?  
@@ -120,3 +154,4 @@ in the example below get_address using the name data
 
 
 ### Customize The Comp <a name="CustomizeComp"></a>
+@ app.coco.imperson.com
