@@ -1,9 +1,9 @@
-from .coco import call_coco
+from .coco import coco_exchange
 from .actions import get_drink_action
 
 
 def namer_comp(state, inp):
-    response = call_coco(
+    response = coco_exchange(
             "namer_vp3", 
             state["session_id"], 
             user_input=inp)
@@ -15,7 +15,7 @@ def namer_comp(state, inp):
 
 
 def get_address_comp(state, inp):
-    response = call_coco(
+    response = coco_exchange(
             "get_address_vp3", 
             state["session_id"], 
             user_input=inp, 
@@ -30,7 +30,7 @@ def get_address_comp(state, inp):
 
 
 def survey_comp(state, inp):
-    response = call_coco(
+    response = coco_exchange(
             "CoCoSurvey_619c51d02b6eb5", 
             state["session_id"], 
             user_input=inp, 
