@@ -41,6 +41,8 @@ python3 is required to run the examples and we recommed using a virtualenv
 In this repo we demostrate integration with coco, nlu platforms and other services to create a chatbot
 Below is some general info about the architecture
 
+Live bot demo: https://webdemo1-dot-coco-235210.appspot.com
+
 ### Adding new comp <a name="subparagraph1"></a>
 call coco with the user input and get the component's response
 
