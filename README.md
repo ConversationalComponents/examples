@@ -2,7 +2,7 @@
 
 # Conversational components with CoCo examples
 
-An example of how to use Conversational Components (CoCo) in your chatbot, with integration to google dialogflow.
+An example of how to use Conversational Components in your chatbot, with integration to google dialogflow.
 
 1. [Background](#Background)
 2. [Getting Started](#GettingStarted)
@@ -16,12 +16,12 @@ An example of how to use Conversational Components (CoCo) in your chatbot, with 
 
 ## Background <a name="Background"></a>
 ### Conversational Components
-CoCo is a concept developed to address the problem of reusability in chatbots.  
+Conversational Components is a concept developed to address the problem of reusability in chatbots.  
   
-Each CoCo maintains its own state, performs its own understanding, includes actions(+responses) and exposes a small interface to pass inputs, responses and context back and forth.
+Each Conversational Component maintains its own state, performs its own understanding, includes actions (+responses) and exposes a small interface to pass inputs, responses and context back and forth.
 
 ### CoCo
-CoCo is the first vendor to offer pre-built components
+Conversational Components (CoCo) is the first vendor to offer pre-built components
 
 [CoCo website](https://www.coco.imperson.com/)  
 [CoCo developers console](https://app.coco.imperson.com/)  
