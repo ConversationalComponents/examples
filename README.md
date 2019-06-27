@@ -2,7 +2,7 @@
 
 # Conversational components with CoCo examples
 
-an example of how to use coco in your chatbot, with integration to google dialogflow
+An example of how to use Conversational Components (CoCo) in your chatbot, with integration to google dialogflow.
 
 1. [Background](#Background)
 2. [Getting Started](#GettingStarted)
@@ -16,18 +16,18 @@ an example of how to use coco in your chatbot, with integration to google dialog
 
 ## Background <a name="Background"></a>
 ### Conversational Components
-Conversation components are a concept developed to address the problem of reusability in chatbots.  
+CoCo is a concept developed to address the problem of reusability in chatbots.  
   
-Each Component maintain its own state, perform its own understanding, includes actions(+responses) and exposes and small interface to pass inputs, responses and context back and forth.
+Each CoCo maintains its own state, performs its own understanding, includes actions(+responses) and exposes a small interface to pass inputs, responses and context back and forth.
 
 ### CoCo
-CoCo(ConversationComponents) is the first vendor to offer prebuilt components
+CoCo is the first vendor to offer pre-built components
 
 [CoCo website](https://www.coco.imperson.com/)  
 [CoCo developers console](https://app.coco.imperson.com/)  
 
 ## Getting Started<a name="GettingStarted"></a>
-python3 is required to run the examples and we recommed using a virtualenv
+python3 is required to run the examples and we recommend using a virtualenv
 
 ```bash 
 1. git clone https://github.com/chenb67/coco_examples
@@ -38,13 +38,13 @@ python3 is required to run the examples and we recommed using a virtualenv
 ```
 
 ## More About The Examples <a name="MoreAboutExample"></a>
-In this repo we demostrate integration with coco, nlu platforms and other services to create a chatbot
+In this repo we demostrate integration with CoCo, nlu platforms and other services to create a chatbot
 Below is some general info about the architecture
 
 Live bot demo: https://webdemo1-dot-coco-235210.appspot.com
 
 ### Adding new comp <a name="subparagraph1"></a>
-call coco with the user input and get the component's response
+Call CoCo with the user input and get the component's response.
 
 ```python
 def coco_exchange(component_id, session_id, **kwargs):
@@ -57,7 +57,7 @@ def coco_exchange(component_id, session_id, **kwargs):
 response = coco_exchange("namer_vp3", state["session_id"], user_input=user_input)
 ```
 
-When the coco returns component_done=true it means the control goes back to the calling bot/component. this a good time to collect variables and update the state
+When CoCo returns component_done=true it means the control goes back to the calling bot/component. This a good time to collect variables and update the state
 
 ```python
 if response["component_done"]:
@@ -76,13 +76,13 @@ def component_name(state, user_input):
 def action_name(**kwargs):
     return str
 ```
-component function takes two params - the state and the user_input
+Component function takes two params - the state and the user_input
 it returns a tuple:
 1. a list of responses
 2. a new component to call and add to the stack or none
 3. if done and should stop call this comp
 
-available components registery is under \_\_init__.py:
+Available components registery is under \_\_init__.py:
 ```python
 from coffeeshop.components_coco import namer_comp
 ```
@@ -97,7 +97,7 @@ if (
 return [], "namer_comp", False
 ```
 
-Return statement with no responses means recursively call the stack again with the new comp on top now
+Return statement with no responses means recursively call the stack again with the new comp on top now.
 
 
 > U: hi  <--- "Default Welcome Intent" calling CoCo  
@@ -108,7 +108,7 @@ Return statement with no responses means recursively call the stack again with t
 
 ### Customize The Action (optional) <a name="CustomizeAction"></a>
 
-Best to have the actions under functions that use the state to determine how the text would look like
+Best to have the actions under functions that use the state to determine how the text will look.
 
 ```python
 def get_drink_action(first_name=""):
@@ -129,7 +129,7 @@ return "Hi, What can I get you to drink?"
 
 ### Share Content With Comp <a name="ShareContent"></a>
 Many of the components make use of available information like name
-Here how to pass this data to coco:
+Here how to pass this data to Coco:
 
 ```python
 response = call_coco(
