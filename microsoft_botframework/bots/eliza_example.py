@@ -61,7 +61,7 @@ class ElizaExampleBot(ActivityHandler):
 
         session_id = turn_context.activity.conversation.id
         user_input = turn_context.activity.text
-        coco_resp = puppet.coco.coco_exchange("eliza_pv1", session_id, user_input)
+        coco_resp = puppet.coco.exchange("eliza_pv1", session_id, user_input)
         await turn_context.send_activity(coco_resp.response)
 
 
