@@ -1,6 +1,0 @@
-dialogflow
-jupyterlab
-requests
-
-flask
-google-cloud-firestore
