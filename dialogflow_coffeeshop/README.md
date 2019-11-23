@@ -1,4 +1,4 @@
-![CoCo Logo](images/imperson_logo_black.png)
+![CoCo Logo](images/cocoLogo.png)
 
 # Conversational components with CoCo examples
 
